@@ -115,5 +115,19 @@ namespace Convertor
             }
             return null;
         }
+
+
+        public static ImageFormat GetImageFormatByString(string formatName)
+        {
+            PropertyInfo[] properties = typeof(ImageFormat).GetProperties();
+            foreach (PropertyInfo prop in properties)
+            {
+                if (prop.Name == formatName)
+                {
+                    return (ImageFormat)prop.GetMethod.Invoke(null,null);
+                }
+            }
+            return null;
+        }
     }
 }
