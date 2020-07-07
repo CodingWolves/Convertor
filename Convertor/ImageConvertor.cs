@@ -2,33 +2,48 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
 
 namespace Convertor
 {
     class ImageConvertor
     {
-        private string filePath;
-        private string savePath;
-        private ImageFormat imageFormat;
+        private readonly string filePath;
+        private readonly string savePath;
+        private readonly ImageFormat imageFormat;
 
+        /// <summary>
+        /// class for multithread use of SaveImageAs
+        /// </summary>
+        /// <param name="filePath">image file path to convert</param>
+        /// <param name="imageFormat">converts to this image format</param>
         public ImageConvertor(string filePath, ImageFormat imageFormat)
         {
             this.filePath = filePath;
             this.imageFormat = imageFormat;
         }
-        public ImageConvertor(string filePath, string savePath, ImageFormat imageFormat): this(filePath, imageFormat)
+
+        /// <summary>
+        /// class for multithread use of SaveImageAs
+        /// </summary>
+        /// <param name="filePath">image file path to convert</param>
+        /// <param name="savePath">file path to save new image</param>
+        /// <param name="imageFormat">converts to this image format</param>
+        public ImageConvertor(string filePath, string savePath, ImageFormat imageFormat) : this(filePath, imageFormat)
         {
             this.savePath = savePath;
         }
 
+        /// <summary>
+        /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'savePath'
+        /// </summary>
         public void SaveImageAs()
         {
             ImageConvertor.SaveImageAs(this.filePath, this.savePath, this.imageFormat);
-            Console.WriteLine("done at "+DateTime.Now.ToLongTimeString());
         }
 
         /// <summary>
-        /// saves the image in path 'filePath' to the same folder with the new format, but with the new format extention
+        /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'filePath' but with a the extention
         /// </summary>
         /// <param name="filePath">image file path to convert</param>
         /// <param name="imageFormat">converts to this image format</param>
@@ -46,7 +61,7 @@ namespace Convertor
         }
 
         /// <summary>
-        /// saves the image in path 'filePath' to 'savePath' with the new format
+        /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'savePath'
         /// </summary>
         /// <param name="filePath">image file path to convert</param>
         /// <param name="savePath">file path to save new image</param>
@@ -66,7 +81,7 @@ namespace Convertor
         }
 
         /// <summary>
-        /// 
+        /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'savePath'
         /// </summary>
         /// <param name="filePath">image file path to convert</param>
         /// <param name="savePath">file path to save new image</param>>
