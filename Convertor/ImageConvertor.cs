@@ -43,7 +43,7 @@ namespace Convertor
         }
 
         /// <summary>
-        /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'filePath' but with a the extention
+        /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'filePath' but with a the extension
         /// </summary>
         /// <param name="filePath">image file path to convert</param>
         /// <param name="imageFormat">converts to this image format</param>
@@ -53,8 +53,8 @@ namespace Convertor
             {
                 string folderPath = Path.GetDirectoryName(filePath);
                 string fileName = Path.GetFileNameWithoutExtension(filePath);
-                string convertedExtention = imageFormat.ToString().ToLower();
-                string savePath = string.Format("{0}\\{1}.{2}", folderPath, fileName, convertedExtention);
+                string convertedExtension = imageFormat.ToString().ToLower();
+                string savePath = string.Format("{0}\\{1}.{2}", folderPath, fileName, convertedExtension);
 
                 image.Save(savePath, imageFormat);
             }
@@ -78,6 +78,15 @@ namespace Convertor
             {
                 image.Save(savePath, imageFormat);
             }
+        }
+
+        /// <summary>
+        /// converts the image by class attributes
+        /// </summary>
+        /// <param name="imageConvertor">attributes in class are taken to the function</param>
+        public static void SaveImageAs(ImageConvertor imageConvertor)
+        {
+            SaveImageAs(imageConvertor.filePath, imageConvertor.savePath, imageConvertor.imageFormat);
         }
 
         /// <summary>
