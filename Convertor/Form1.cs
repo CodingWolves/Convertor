@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Convertor
 {
     public partial class Form1 : Form
     {
-        private static int THREAD_QUEUE = 16;
-        private static int THREAD_QUEUE_SLEEP = 20;
-        private static int STATUS_INTERVAL = 300; // in milliseconds
+        private const int THREAD_QUEUE = 16;
+        private const int THREAD_QUEUE_SLEEP = 20;
+        private const int STATUS_INTERVAL = 300; // in milliseconds
 
         public Form1()
         {
@@ -156,10 +151,10 @@ namespace Convertor
                     threadList.Remove(node.Previous);
                 }
                 else
+                {
                     node = node.Next;
+                }
             }
         }
-
-        
     }
 }

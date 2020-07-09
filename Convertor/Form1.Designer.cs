@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.ConvertPanel = new System.Windows.Forms.GroupBox();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.FromExtensionComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,12 +38,11 @@
             this.SaveRadioConvertedFolder = new System.Windows.Forms.RadioButton();
             this.SaveRadioSameFolder = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
+            this.OpenButton = new System.Windows.Forms.Button();
             this.SelectFilesButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CovertButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.statusLabel = new System.Windows.Forms.Label();
-            this.OpenButton = new System.Windows.Forms.Button();
             this.ConvertPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,21 +61,31 @@
             this.ConvertPanel.Controls.Add(this.SelectFilesButton);
             this.ConvertPanel.Controls.Add(this.textBox1);
             this.ConvertPanel.Controls.Add(this.CovertButton);
-            this.ConvertPanel.Location = new System.Drawing.Point(8, 8);
-            this.ConvertPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.ConvertPanel.Location = new System.Drawing.Point(12, 12);
             this.ConvertPanel.Name = "ConvertPanel";
-            this.ConvertPanel.Padding = new System.Windows.Forms.Padding(2);
-            this.ConvertPanel.Size = new System.Drawing.Size(397, 176);
+            this.ConvertPanel.Size = new System.Drawing.Size(596, 271);
             this.ConvertPanel.TabIndex = 0;
             this.ConvertPanel.TabStop = false;
             this.ConvertPanel.Text = "Conversion Panel";
             // 
+            // statusLabel
+            // 
+            this.statusLabel.BackColor = System.Drawing.Color.Transparent;
+            this.statusLabel.Location = new System.Drawing.Point(411, 186);
+            this.statusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(177, 35);
+            this.statusLabel.TabIndex = 15;
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.statusLabel.Visible = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(42, 60);
+            this.label2.Location = new System.Drawing.Point(63, 92);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 13);
+            this.label2.Size = new System.Drawing.Size(120, 20);
             this.label2.TabIndex = 14;
             this.label2.Text = "From Extension";
             // 
@@ -90,17 +100,19 @@
             "Tiff",
             "Icon",
             "Png"});
-            this.FromExtensionComboBox.Location = new System.Drawing.Point(48, 76);
+            this.FromExtensionComboBox.Location = new System.Drawing.Point(67, 117);
+            this.FromExtensionComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FromExtensionComboBox.Name = "FromExtensionComboBox";
-            this.FromExtensionComboBox.Size = new System.Drawing.Size(121, 21);
+            this.FromExtensionComboBox.Size = new System.Drawing.Size(180, 28);
             this.FromExtensionComboBox.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(224, 60);
+            this.label1.Location = new System.Drawing.Point(336, 92);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 13);
+            this.label1.Size = new System.Drawing.Size(131, 20);
             this.label1.TabIndex = 12;
             this.label1.Text = "To Image Format";
             // 
@@ -115,16 +127,18 @@
             "Tiff",
             "Icon",
             "Png"});
-            this.ToFormatComboBox.Location = new System.Drawing.Point(230, 76);
+            this.ToFormatComboBox.Location = new System.Drawing.Point(345, 117);
+            this.ToFormatComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ToFormatComboBox.Name = "ToFormatComboBox";
-            this.ToFormatComboBox.Size = new System.Drawing.Size(121, 21);
+            this.ToFormatComboBox.Size = new System.Drawing.Size(180, 28);
             this.ToFormatComboBox.TabIndex = 1;
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(274, 147);
+            this.progressBar.Location = new System.Drawing.Point(411, 226);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(118, 23);
+            this.progressBar.Size = new System.Drawing.Size(177, 35);
             this.progressBar.Step = 1;
             this.progressBar.TabIndex = 10;
             this.progressBar.Visible = false;
@@ -133,9 +147,10 @@
             // 
             this.SaveRadioConvertedFolder.AutoSize = true;
             this.SaveRadioConvertedFolder.Checked = true;
-            this.SaveRadioConvertedFolder.Location = new System.Drawing.Point(102, 153);
+            this.SaveRadioConvertedFolder.Location = new System.Drawing.Point(153, 235);
+            this.SaveRadioConvertedFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SaveRadioConvertedFolder.Name = "SaveRadioConvertedFolder";
-            this.SaveRadioConvertedFolder.Size = new System.Drawing.Size(142, 17);
+            this.SaveRadioConvertedFolder.Size = new System.Drawing.Size(206, 24);
             this.SaveRadioConvertedFolder.TabIndex = 9;
             this.SaveRadioConvertedFolder.TabStop = true;
             this.SaveRadioConvertedFolder.Text = "Save to converted folder";
@@ -144,9 +159,10 @@
             // SaveRadioSameFolder
             // 
             this.SaveRadioSameFolder.AutoSize = true;
-            this.SaveRadioSameFolder.Location = new System.Drawing.Point(102, 130);
+            this.SaveRadioSameFolder.Location = new System.Drawing.Point(153, 200);
+            this.SaveRadioSameFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SaveRadioSameFolder.Name = "SaveRadioSameFolder";
-            this.SaveRadioSameFolder.Size = new System.Drawing.Size(119, 17);
+            this.SaveRadioSameFolder.Size = new System.Drawing.Size(175, 24);
             this.SaveRadioSameFolder.TabIndex = 9;
             this.SaveRadioSameFolder.Text = "Save to same folder";
             this.SaveRadioSameFolder.UseVisualStyleBackColor = true;
@@ -154,20 +170,29 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 23);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(6, 35);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
+            this.label3.Size = new System.Drawing.Size(103, 20);
             this.label3.TabIndex = 7;
             this.label3.Text = "Select Folder";
+            // 
+            // OpenButton
+            // 
+            this.OpenButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
+            this.OpenButton.Location = new System.Drawing.Point(516, 29);
+            this.OpenButton.Name = "OpenButton";
+            this.OpenButton.Size = new System.Drawing.Size(64, 35);
+            this.OpenButton.TabIndex = 1;
+            this.OpenButton.Text = "Open";
+            this.OpenButton.UseVisualStyleBackColor = true;
+            this.OpenButton.Click += new System.EventHandler(this.OpenButton_Click);
             // 
             // SelectFilesButton
             // 
             this.SelectFilesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.SelectFilesButton.Location = new System.Drawing.Point(315, 20);
-            this.SelectFilesButton.Margin = new System.Windows.Forms.Padding(2);
+            this.SelectFilesButton.Location = new System.Drawing.Point(472, 31);
             this.SelectFilesButton.Name = "SelectFilesButton";
-            this.SelectFilesButton.Size = new System.Drawing.Size(25, 20);
+            this.SelectFilesButton.Size = new System.Drawing.Size(38, 31);
             this.SelectFilesButton.TabIndex = 1;
             this.SelectFilesButton.Text = "...";
             this.SelectFilesButton.UseVisualStyleBackColor = true;
@@ -175,54 +200,29 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(78, 20);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox1.Location = new System.Drawing.Point(117, 31);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(233, 20);
+            this.textBox1.Size = new System.Drawing.Size(348, 26);
             this.textBox1.TabIndex = 5;
             // 
             // CovertButton
             // 
             this.CovertButton.BackColor = System.Drawing.SystemColors.Control;
             this.CovertButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.CovertButton.Location = new System.Drawing.Point(4, 131);
-            this.CovertButton.Margin = new System.Windows.Forms.Padding(2);
+            this.CovertButton.Location = new System.Drawing.Point(6, 202);
             this.CovertButton.Name = "CovertButton";
-            this.CovertButton.Size = new System.Drawing.Size(92, 41);
+            this.CovertButton.Size = new System.Drawing.Size(138, 63);
             this.CovertButton.TabIndex = 0;
             this.CovertButton.Text = "Convert";
             this.CovertButton.UseVisualStyleBackColor = false;
             this.CovertButton.Click += new System.EventHandler(this.CovertButton_Click);
             // 
-            // statusLabel
-            // 
-            this.statusLabel.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel.Location = new System.Drawing.Point(274, 121);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(118, 23);
-            this.statusLabel.TabIndex = 15;
-            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.statusLabel.Visible = false;
-            // 
-            // OpenButton
-            // 
-            this.OpenButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.OpenButton.Location = new System.Drawing.Point(344, 19);
-            this.OpenButton.Margin = new System.Windows.Forms.Padding(2);
-            this.OpenButton.Name = "OpenButton";
-            this.OpenButton.Size = new System.Drawing.Size(43, 23);
-            this.OpenButton.TabIndex = 1;
-            this.OpenButton.Text = "Open";
-            this.OpenButton.UseVisualStyleBackColor = true;
-            this.OpenButton.Click += new System.EventHandler(this.OpenButton_Click);
-            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(416, 195);
+            this.ClientSize = new System.Drawing.Size(624, 300);
             this.Controls.Add(this.ConvertPanel);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Covertor";
             this.ConvertPanel.ResumeLayout(false);

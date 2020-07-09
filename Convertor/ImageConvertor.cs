@@ -8,30 +8,30 @@ namespace Convertor
 {
     class ImageConvertor
     {
-        private readonly string filePath;
-        private readonly string savePath;
-        private readonly ImageFormat imageFormat;
+        private readonly string _filePath;
+        private readonly string _savePath;
+        private readonly ImageFormat _imageFormat;
 
         /// <summary>
-        /// class for multithread use of SaveImageAs
+        /// class for multi thread use of SaveImageAs
         /// </summary>
         /// <param name="filePath">image file path to convert</param>
         /// <param name="imageFormat">converts to this image format</param>
         public ImageConvertor(string filePath, ImageFormat imageFormat)
         {
-            this.filePath = filePath;
-            this.imageFormat = imageFormat;
+            this._filePath = filePath;
+            this._imageFormat = imageFormat;
         }
 
         /// <summary>
-        /// class for multithread use of SaveImageAs
+        /// class for multi thread use of SaveImageAs
         /// </summary>
         /// <param name="filePath">image file path to convert</param>
         /// <param name="savePath">file path to save new image</param>
         /// <param name="imageFormat">converts to this image format</param>
         public ImageConvertor(string filePath, string savePath, ImageFormat imageFormat) : this(filePath, imageFormat)
         {
-            this.savePath = savePath;
+            this._savePath = savePath;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Convertor
         /// </summary>
         public void SaveImageAs()
         {
-            ImageConvertor.SaveImageAs(this.filePath, this.savePath, this.imageFormat);
+            ImageConvertor.SaveImageAs(this._filePath, this._savePath, this._imageFormat);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Convertor
         /// <param name="imageConvertor">attributes in class are taken to the function</param>
         public static void SaveImageAs(ImageConvertor imageConvertor)
         {
-            SaveImageAs(imageConvertor.filePath, imageConvertor.savePath, imageConvertor.imageFormat);
+            SaveImageAs(imageConvertor._filePath, imageConvertor._savePath, imageConvertor._imageFormat);
         }
 
         /// <summary>
