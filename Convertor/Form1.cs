@@ -61,6 +61,7 @@ namespace Convertor
             statusLabel.Text = "Converting";
 
             int count = 0;
+            int convertedCount = 0;
 
             for (int index = 0; index < allFiles.Length; index++)
             {
@@ -77,6 +78,7 @@ namespace Convertor
                 {
                     continue;
                 }
+                convertedCount++;
 
                 ImageConvertor imageConvertor;
 
@@ -111,7 +113,7 @@ namespace Convertor
 
             Console.WriteLine("ended at " + DateTime.Now.ToLongTimeString());
 
-            MessageBox.Show("Converted " + allFiles.Length + " Files", "Conversion Finished");
+            MessageBox.Show("Converted " + convertedCount + " Files", "Conversion Finished");
 
             statusLabel.Visible = false;
             progressBar.Visible = false;
