@@ -11,8 +11,8 @@ namespace Convertor
     public partial class Form1 : Form
     {
         private const int THREAD_QUEUE = 16;
-        private const int THREAD_QUEUE_SLEEP = 20;
-        private const int STATUS_INTERVAL = 300; // in milliseconds
+        private const int THREAD_QUEUE_SLEEP = 20; // in milliseconds
+        private const int STATUS_UPDATE_INTERVAL = 300; // in milliseconds
 
         public Form1()
         {
@@ -23,28 +23,28 @@ namespace Convertor
 
         private void CovertButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            if(string.IsNullOrWhiteSpace(textBox1.Text))
             {
                 MessageBox.Show("Choose Folder Path", "Error");
                 return;
             }
-            if (!Directory.Exists(this.textBox1.Text))
+            if(!Directory.Exists(this.textBox1.Text))
             {
                 MessageBox.Show("Incorrect Folder Path", "Error");
                 return;
             }
 
-            string folderPath = textBox1.Text;
-            string convertedFolderPath = folderPath + "\\converted";
-            string[] allFiles = Directory.GetFiles(folderPath);
-            if (SaveRadioConvertedFolder.Checked)
+            string sourceFolderPath = textBox1.Text;
+            string convertedFolderPath = sourceFolderPath + "\\converted";
+            string[] sourceFiles = Directory.GetFiles(sourceFolderPath);
+            if(SaveRadioConvertedFolder.Checked)
             {
                 Directory.CreateDirectory(convertedFolderPath);
             }
 
             statusLabel.Visible = true;
             progressBar.Visible = true;
-            progressBar.Maximum = allFiles.Length;
+            progressBar.Maximum = sourceFiles.Length;
             progressBar.Value = 0;
 
             ConvertPanel.Enabled = false;
@@ -53,65 +53,62 @@ namespace Convertor
             ImageFormat toFormat = ImageConvertor.GetImageFormatByString(toFormatName);
             string fromExtension = FromExtensionComboBox.SelectedItem.ToString().ToLower();
 
-            Console.WriteLine("started at " + DateTime.Now.ToLongTimeString());
             LinkedList<Thread> threadList = new LinkedList<Thread>();
 
-            DateTime startTime = DateTime.Now;
+            DateTime lastIntervalTime = DateTime.Now;
 
             statusLabel.Text = "Converting";
 
             int count = 0;
             int convertedCount = 0;
 
-            for (int index = 0; index < allFiles.Length; index++)
+            for(int index = 0; index < sourceFiles.Length; index++)
             {
-                string fileName = allFiles[index];
-                progressBar.Value = index;
-                if (DateTime.Now.Subtract(startTime).Milliseconds > STATUS_INTERVAL)
-                {
-                    statusLabel.Text = "Converting" + String.Concat(Enumerable.Repeat(".", (++count % 5)));
-                    startTime = DateTime.Now;
-                }
-                Application.DoEvents();
+                string sourceFilePath = sourceFiles[index];
+                string resultFilePath;
 
-                if (!Path.GetExtension(fileName).ToLower().Equals("."+fromExtension))
+                // Form status and progressBar update
+                void FormUpdate()
+                {
+                    progressBar.Value = index;
+                    if(DateTime.Now.Subtract(lastIntervalTime).Milliseconds > STATUS_UPDATE_INTERVAL)
+                    {
+                        statusLabel.Text = "Converting" + String.Concat(Enumerable.Repeat(".", (++count % 5)));
+                        lastIntervalTime = DateTime.Now;
+                    }
+                    Application.DoEvents();
+                }
+
+                FormUpdate();
+
+                // continue if the source file extension is not the one I'm looking for (.jpg != .bmp)
+                if(!Path.GetExtension(sourceFilePath).ToLower().Equals("." + fromExtension))
                 {
                     continue;
                 }
                 convertedCount++;
 
-                ImageConvertor imageConvertor;
+                resultFilePath = SaveRadioConvertedFolder.Checked ? convertedFolderPath : sourceFolderPath;
+                resultFilePath += "\\" + Path.GetFileNameWithoutExtension(sourceFilePath) + "." + toFormatName;
 
-                if (SaveRadioConvertedFolder.Checked)
-                {
-                    //ImageConvertor.SaveImageAs(fileName, convertedFolderPath + "\\" + Path.GetFileNameWithoutExtension(fileName) + ".jpg", ImageFormat.Jpeg); // new 430 bmp size 5.93MB , 42 secs on SSD , 242 secs on HDD
-                    imageConvertor = new ImageConvertor(fileName, convertedFolderPath + "\\" + Path.GetFileNameWithoutExtension(fileName) + "." + toFormatName, toFormat); // new 430 bmp size 5.93MB , 14 secs on SSD , 122 secs on HDD
+                ImageConvertor imageConvertor = new ImageConvertor(sourceFilePath, resultFilePath, toFormat);
 
-                }
-                else // (SaveRadioSameFolder.Checked)
-                {
-                    imageConvertor = new ImageConvertor(fileName, folderPath + "\\" + Path.GetFileNameWithoutExtension(fileName) + "." + toFormatName, toFormat);
-                }
-
-                threadList.AddLast(new Thread(new ThreadStart(imageConvertor.SaveImageAs)));
+                // using sequential io     = 430 bmp size 5.93MB to jpg, 42 secs on SSD , 242 secs on HDD
+                // using multi-threaded io = 430 bmp size 5.93MB to jpg, 14 secs on SSD , 122 secs on HDD
+                threadList.AddLast(new Thread(new ThreadStart(imageConvertor.ConvertImage)));
                 threadList.Last.Value.Start();
 
-                while (threadList.Count >= THREAD_QUEUE) // Thread Queue, the longest operation is IO so IO Queue
+                while(threadList.Count >= THREAD_QUEUE) // Thread Queue, the longest operation is IO so IO Queue
                 {
                     Thread.Sleep(THREAD_QUEUE_SLEEP);
-                    if (DateTime.Now.Subtract(startTime).Milliseconds > STATUS_INTERVAL)
-                    {
-                        statusLabel.Text = "Converting" + String.Concat(Enumerable.Repeat(".", (++count % 5)));
-                        startTime = DateTime.Now;
-                        Application.DoEvents();
-                    }
+                    FormUpdate();
                     RemoveNonLivingThreads(threadList);
                 }
             }
-            foreach (Thread th in threadList)
+            foreach(Thread th in threadList)
+            {
                 th.Join(); // wait for the last threads to finish
-
-            Console.WriteLine("ended at " + DateTime.Now.ToLongTimeString());
+            }
 
             MessageBox.Show("Converted " + convertedCount + " Files", "Conversion Finished");
 
@@ -123,7 +120,7 @@ namespace Convertor
 
         private void SelectFilesButton_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 this.textBox1.Text = folderBrowserDialog1.SelectedPath;
             }
@@ -131,7 +128,7 @@ namespace Convertor
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(this.textBox1.Text))
+            if(Directory.Exists(this.textBox1.Text))
             {
                 System.Diagnostics.Process.Start(this.textBox1.Text, null);
             }
@@ -145,17 +142,17 @@ namespace Convertor
         {
             LinkedListNode<Thread> node = threadList.First;
 
-            while (node != null && node.Next != null)
+            while(node != null && node.Next != null)
             {
-                if (!node.Value.IsAlive)
+                node = node.Next;
+                if(!node.Previous.Value.IsAlive)
                 {
-                    node = node.Next;
                     threadList.Remove(node.Previous);
                 }
-                else
-                {
-                    node = node.Next;
-                }
+            }
+            if(node != null && !node.Value.IsAlive)
+            {
+                threadList.Remove(node);
             }
         }
     }

@@ -37,9 +37,9 @@ namespace Convertor
         /// <summary>
         /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'savePath'
         /// </summary>
-        public void SaveImageAs()
+        public void ConvertImage()
         {
-            ImageConvertor.SaveImageAs(this._filePath, this._savePath, this._imageFormat);
+            ImageConvertor.ConvertImage(this._filePath, this._savePath, this._imageFormat);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Convertor
         /// </summary>
         /// <param name="filePath">image file path to convert</param>
         /// <param name="imageFormat">converts to this image format</param>
-        public static void SaveImageAs(string filePath, ImageFormat imageFormat)
+        public static void ConvertImage(string filePath, ImageFormat imageFormat)
         {
             using (Image image = new Bitmap(filePath))
             {
@@ -66,11 +66,11 @@ namespace Convertor
         /// <param name="filePath">image file path to convert</param>
         /// <param name="savePath">file path to save new image</param>
         /// <param name="imageFormat">converts to this image format</param>
-        public static void SaveImageAs(string filePath, string savePath, ImageFormat imageFormat)
+        public static void ConvertImage(string filePath, string savePath, ImageFormat imageFormat)
         {
             if (savePath == null)
             {
-                SaveImageAs(filePath, imageFormat);
+                ConvertImage(filePath, imageFormat);
                 return;
             }
 
@@ -84,9 +84,9 @@ namespace Convertor
         /// converts the image by class attributes
         /// </summary>
         /// <param name="imageConvertor">attributes in class are taken to the function</param>
-        public static void SaveImageAs(ImageConvertor imageConvertor)
+        public static void ConvertImage(ImageConvertor imageConvertor)
         {
-            SaveImageAs(imageConvertor._filePath, imageConvertor._savePath, imageConvertor._imageFormat);
+            ConvertImage(imageConvertor._filePath, imageConvertor._savePath, imageConvertor._imageFormat);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Convertor
         /// <param name="filePath">image file path to convert</param>
         /// <param name="savePath">file path to save new image</param>>
         /// <param name="quality">positive number between 0 and 1 , 1 is the same quality as source(removes compression), 0 is no quality, this will determine how big the file size is</param>
-        public static void SaveImageAsJpg(string filePath, string savePath, float quality)
+        public static void ConvertImageToJpg(string filePath, string savePath, float quality)
         {
             using (Image image = new Bitmap(filePath))
             {
