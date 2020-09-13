@@ -8,13 +8,13 @@ using System.Windows.Forms;
 
 namespace Convertor
 {
-    public partial class Form1 : Form
+    public partial class Convertor : Form
     {
         private const int THREAD_QUEUE = 16;
         private const int THREAD_QUEUE_SLEEP = 20; // in milliseconds
         private const int STATUS_UPDATE_INTERVAL = 300; // in milliseconds
 
-        public Form1()
+        public Convertor()
         {
             InitializeComponent();
             ToFormatComboBox.SelectedIndex = 0;
