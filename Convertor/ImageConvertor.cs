@@ -39,25 +39,7 @@ namespace Convertor
         /// </summary>
         public void ConvertImage()
         {
-            ImageConvertor.ConvertImage(this._filePath, this._savePath, this._imageFormat);
-        }
-
-        /// <summary>
-        /// converts the image in path 'filePath' to 'imageFormat' and saves it in 'filePath' but with a the extension
-        /// </summary>
-        /// <param name="filePath">image file path to convert</param>
-        /// <param name="imageFormat">converts to this image format</param>
-        public static void ConvertImage(string filePath, ImageFormat imageFormat)
-        {
-            using (Image image = new Bitmap(filePath))
-            {
-                string folderPath = Path.GetDirectoryName(filePath);
-                string fileName = Path.GetFileNameWithoutExtension(filePath);
-                string convertedExtension = imageFormat.ToString().ToLower();
-                string savePath = string.Format("{0}\\{1}.{2}", folderPath, fileName, convertedExtension);
-
-                image.Save(savePath, imageFormat);
-            }
+            ConvertImage(this._filePath, this._savePath, this._imageFormat);
         }
 
         /// <summary>
@@ -68,13 +50,18 @@ namespace Convertor
         /// <param name="imageFormat">converts to this image format</param>
         public static void ConvertImage(string filePath, string savePath, ImageFormat imageFormat)
         {
-            if (savePath == null)
+            if(savePath == null)
             {
-                ConvertImage(filePath, imageFormat);
+                savePath = GetSavePath(filePath, imageFormat);
+            }
+
+            if(imageFormat.Equals(ImageFormat.Jpeg))
+            {
+                ConvertImageToJpg(filePath, savePath, 0.92);
                 return;
             }
 
-            using (Image image = new Bitmap(filePath))
+            using(Image image = new Bitmap(filePath))
             {
                 image.Save(savePath, imageFormat);
             }
@@ -95,12 +82,12 @@ namespace Convertor
         /// <param name="filePath">image file path to convert</param>
         /// <param name="savePath">file path to save new image</param>>
         /// <param name="quality">positive number between 0 and 1 , 1 is the same quality as source(removes compression), 0 is no quality, this will determine how big the file size is</param>
-        public static void ConvertImageToJpg(string filePath, string savePath, float quality)
+        public static void ConvertImageToJpg(string filePath, string savePath, double quality)
         {
-            using (Image image = new Bitmap(filePath))
+            using(Image image = new Bitmap(filePath))
             {
                 EncoderParameters es = new EncoderParameters();
-                EncoderParameter e1 = new EncoderParameter(Encoder.Quality, (long)(quality * 100));
+                EncoderParameter e1 = new EncoderParameter(Encoder.Quality, (long)(quality * 100L));
 
                 es.Param = new EncoderParameter[] { e1 };
                 image.Save(savePath, GetJpgCodec(), es);
@@ -110,13 +97,13 @@ namespace Convertor
         private static ImageCodecInfo JpgCodec = null;
         private static ImageCodecInfo GetJpgCodec()
         {
-            if (JpgCodec != null)
+            if(JpgCodec != null)
                 return JpgCodec;
 
             ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
-            foreach (ImageCodecInfo codec in codecs)
+            foreach(ImageCodecInfo codec in codecs)
             {
-                if (codec.FormatID == ImageFormat.Jpeg.Guid)
+                if(codec.FormatID == ImageFormat.Jpeg.Guid)
                 {
                     JpgCodec = codec;
                     return codec;
@@ -129,14 +116,29 @@ namespace Convertor
         public static ImageFormat GetImageFormatByString(string formatName)
         {
             PropertyInfo[] properties = typeof(ImageFormat).GetProperties();
-            foreach (PropertyInfo prop in properties)
+            foreach(PropertyInfo prop in properties)
             {
-                if (prop.Name == formatName)
+                if(prop.Name.ToLower() == formatName.ToLower())
                 {
-                    return (ImageFormat)prop.GetMethod.Invoke(null,null);
+                    return (ImageFormat)prop.GetMethod.Invoke(null, null);
                 }
             }
+            switch(formatName.ToLower())
+            {
+                case "jpg":
+                return ImageFormat.Jpeg;
+                case "ico":
+                return ImageFormat.Icon;
+            }
             return null;
+        }
+
+        private static string GetSavePath(string filePath, ImageFormat imageFormat)
+        {
+            string folderPath = Path.GetDirectoryName(filePath);
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            string convertedExtension = imageFormat.ToString().ToLower();
+            return string.Format("{0}\\{1}.{2}", folderPath, fileName, convertedExtension);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Convertor
         {
             InitializeComponent();
             ToFormatComboBox.SelectedIndex = 0;
-            FromExtensionComboBox.SelectedIndex = 2;
+            FromExtensionComboBox.SelectedIndex = 0;
         }
 
         private void CovertButton_Click(object sender, EventArgs e)
@@ -89,7 +89,7 @@ namespace Convertor
                 convertedCount++;
 
                 resultFilePath = SaveRadioConvertedFolder.Checked ? convertedFolderPath : sourceFolderPath;
-                resultFilePath += "\\" + Path.GetFileNameWithoutExtension(sourceFilePath) + "." + toFormatName;
+                resultFilePath += "\\" + Path.GetFileNameWithoutExtension(sourceFilePath) + "." + toFormatName.ToLower();
 
                 ImageConvertor imageConvertor = new ImageConvertor(sourceFilePath, resultFilePath, toFormat);
 
