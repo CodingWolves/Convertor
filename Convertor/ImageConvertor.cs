@@ -87,7 +87,7 @@ namespace Convertor
             using(Image image = new Bitmap(filePath))
             {
                 EncoderParameters es = new EncoderParameters();
-                EncoderParameter e1 = new EncoderParameter(Encoder.Quality, (long)(quality * 100L));
+                EncoderParameter e1 = new EncoderParameter(Encoder.Quality, (long)(quality * 100));
 
                 es.Param = new EncoderParameter[] { e1 };
                 image.Save(savePath, GetJpgCodec(), es);
